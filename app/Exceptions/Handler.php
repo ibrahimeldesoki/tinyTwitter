@@ -48,8 +48,14 @@ class Handler extends ExceptionHandler
      *
      * @throws \Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
+        if ($e instanceof APIExceptions) {
+            app('sentry')->captureException($e);
+            return $request->wantsJson()
+            ? response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode())
+            : response()->view('api_errors', ['exception' => $e], $e->getCode());
+        }
+        return parent::render($request, $e);
     }
 }

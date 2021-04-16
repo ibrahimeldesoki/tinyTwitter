@@ -2,7 +2,10 @@
 
     namespace App\Http\Controllers;
 
-    use App\User;
+use App\Entities\UserEntity;
+use App\Http\Requests\UserRequest;
+use App\Services\UserService;
+use App\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Support\Facades\Validator;
@@ -11,6 +14,11 @@
 
     class UserController extends Controller
     {
+        private $userService;
+        public function __construct(UserService $userService)
+        {
+            $this->userService = $userService;
+        }
         public function authenticate(Request $request)
         {
             $credentials = $request->only('email', 'password');
@@ -26,25 +34,17 @@
             return response()->json(compact('token'));
         }
 
-        public function register(Request $request)
+        public function register(UserRequest $userRequest)
         {
-                $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
-            ]);
+            $userEntity =  new UserEntity ;
 
-            if($validator->fails()){
-                    return response()->json($validator->errors()->toJson(), 400);
-            }
+            $userEntity->setName($userRequest->name);
+            $userEntity->setEmail($userRequest->email);
+            $userEntity->setPassword($userRequest->password);
+            $userEntity->setDateOfBirth($userRequest->date_of_birth);
+            $userEntity->setImage($userRequest->image);
 
-            $user = User::create([
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-                'password' => Hash::make($request->get('password')),
-                'date_of_birth' => $request->date_of_birth
-            ]);
-
+            $user =  $this->userService->register($userEntity);
             $token = JWTAuth::fromUser($user);
 
             return response()->json(compact('user','token'),201);
