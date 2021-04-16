@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use JWTAuth;
 
 class Handler extends ExceptionHandler
 {
@@ -50,12 +52,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e)
     {
-        if ($e instanceof APIExceptions) {
-            app('sentry')->captureException($e);
-            return $request->wantsJson()
-            ? response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode())
-            : response()->view('api_errors', ['exception' => $e], $e->getCode());
-        }
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+                return response()->json(['token_expired'], $e->getStatusCode());
+            } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+                return response()->json(['token_invalid'], $e->getStatusCode());
+            } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
+                return response()->json(['token_absent'], $e->getStatusCode());
+            }
         return parent::render($request, $e);
     }
 }

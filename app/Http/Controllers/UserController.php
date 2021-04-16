@@ -1,16 +1,13 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Entities\UserEntity;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
-use App\User;
-    use Illuminate\Http\Request;
-    use Illuminate\Support\Facades\Hash;
-    use Illuminate\Support\Facades\Validator;
-    use JWTAuth;
-    use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Http\Request;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
     class UserController extends Controller
     {
@@ -22,7 +19,9 @@ use App\User;
         public function authenticate(Request $request)
         {
             $credentials = $request->only('email', 'password');
-
+            $userEntity = new UserEntity;
+            $userEntity->setEmail($request->email);
+            $userEntity->setPassword($request->password);
             try {
                 if (! $token = JWTAuth::attempt($credentials)) {
                     return response()->json(['error' => 'invalid_credentials'], 400);
@@ -45,33 +44,18 @@ use App\User;
             $userEntity->setImage($userRequest->image);
 
             $user =  $this->userService->register($userEntity);
+            dd($user);
             $token = JWTAuth::fromUser($user);
 
-            return response()->json(compact('user','token'),201);
+            return response()->json(compact('user', 'token'), 201);
         }
 
         public function getAuthenticatedUser()
-            {
-                    try {
-
-                            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                                    return response()->json(['user_not_found'], 404);
-                            }
-
-                    } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-                            return response()->json(['token_expired'], $e->getStatusCode());
-
-                    } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-                            return response()->json(['token_invalid'], $e->getStatusCode());
-
-                    } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-                            return response()->json(['token_absent'], $e->getStatusCode());
-
-                    }
-
-                    return response()->json(compact('user'));
+        {
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
             }
+
+            return response()->json(compact('user'));
+        }
     }
