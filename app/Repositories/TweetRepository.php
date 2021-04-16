@@ -19,26 +19,26 @@ class TweetRepository
 
     public function store(TweetEntity $tweetEntity)
     {
-        $tweet = $this->tweet->create($tweetEntity->toArray());
+        $attributes = [];
+        $attributes['text'] = $tweetEntity->getText();
+        $attributes['user_id'] = $tweetEntity->getUser()->getId();
+        $tweet = $this->tweet->create($attributes);
         $tweetEntity->setId($tweet->id);
 
         return $tweetEntity;
     }
 
 
-    public function find(int $tweet_id)
+    public function find(int $id)
     {
-        $tweet = $this->tweet->findOrFail($tweet_id);
-        $tweetEntity = new TweetEntity();
-        $tweetEntity->setId($tweet->id);
+        return  $this->tweet->where('id', $id)->exists();
+    }
+
+    public function update(TweetEntity $tweetEntity)
+    {
+        $tweet =$this->tweet->find($tweetEntity->getId());
+        $tweet->update(['text' =>$tweetEntity->getText() ]);
         $tweetEntity->setText($tweet->text);
-        $tweetEntity->setUser($this->userRepository->find($tweet->user_id));
-
         return $tweetEntity;
-    }
-
-    protected function getTimeLineTweets(array $ids)
-    {
-        return $this->tweet->withCount('likes')->whereIn('user_id', $ids)->orderBy('created_at', 'desc')->get();
     }
 }

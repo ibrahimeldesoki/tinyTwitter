@@ -26,3 +26,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     // Route::post('/tweet', 'TweetController@store');
 });
 Route::post('/tweet', 'TweetController@store');
+Route::post('/tweet/update', 'TweetController@update');
+Route::post('/follow', 'FollowController@follow');

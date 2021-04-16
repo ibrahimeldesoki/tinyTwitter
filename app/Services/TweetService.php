@@ -3,7 +3,9 @@
 namespace  App\Services;
 
 use App\Entities\TweetEntity;
+use App\Http\Requests\UpdateTweetRequest;
 use App\Repositories\TweetRepository;
+use Exception;
 
 class TweetService
 {
@@ -19,8 +21,17 @@ class TweetService
         return $this->tweetRepository->store($tweetEntity);
     }
 
-    public function find($tweet_id)
+    public function find($id)
     {
-        return $this->tweetRepository->find($tweet_id);
+        $foundTweet = $this->tweetRepository->find($id);
+        if ($foundTweet ==false) {
+            throw new Exception('we can not find this tweet');
+        }
+        return $foundTweet;
+    }
+    public function update(TweetEntity $tweetEntity)
+    {
+        $this->find($tweetEntity->getId());
+        return $this->tweetRepository->update($tweetEntity);
     }
 }
