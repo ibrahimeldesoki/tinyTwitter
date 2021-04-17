@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -62,6 +63,10 @@ class Handler extends ExceptionHandler
             if($e instanceof APIExceptions)
             {
                return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            }
+            if($e instanceof ModelNotFoundException)
+            {
+                return response()->json(['success' => false, 'message' => 'No query Result']);
             }
         return parent::render($request, $e);
     }

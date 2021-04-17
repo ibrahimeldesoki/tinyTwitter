@@ -47,4 +47,9 @@ class TweetRepository
 
         return $tweetEntity;
     }
+    public function delete($id)
+    {
+        $this->tweet->find($id)->delete();
+        return response()->json(['success' => 'true', 'message' => 'Tweet Deleted Sucssfully'],200);
+    }
 }

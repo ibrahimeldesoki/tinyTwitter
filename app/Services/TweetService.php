@@ -3,11 +3,11 @@
 namespace  App\Services;
 
 use App\Entities\TweetEntity;
-use App\Exceptions\ForbiddenUpdateTweetException;
-use App\Http\Requests\UpdateTweetRequest;
+use App\Entities\UserEntity;
+use App\Exceptions\AccessDeniedException;
 use App\Repositories\TweetRepository;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TweetService
 {
@@ -25,16 +25,22 @@ class TweetService
 
     public function find($id)
     {
-        return $this->tweetRepository->find($id);
+        return  $this->tweetRepository->find($id);
     }
     public function update(TweetEntity $tweetEntity)
     {
-
         $oldTweetEntity = $this->find($tweetEntity->getId());
-        if($oldTweetEntity->getUser()->getId() != $tweetEntity->getUser()->getId())
-        {
-            throw new ForbiddenUpdateTweetException;
+        if ($oldTweetEntity->getUser()->getId() != $tweetEntity->getUser()->getId()) {
+            throw new AccessDeniedException();
         }
         return $this->tweetRepository->update($tweetEntity);
+    }
+    public function delete(TweetEntity $tweetEntity, UserEntity $userEntity)
+    {
+        if ($tweetEntity->getUser()->getId() != $userEntity->getId()) {
+            throw new AccessDeniedException();
+        }
+         $this->tweetRepository->delete($tweetEntity->getId());
+
     }
 }

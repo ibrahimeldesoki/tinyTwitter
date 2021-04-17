@@ -21,7 +21,7 @@ class TweetController extends Controller
     public function store(TweetRequest $tweetRequest)
     {
         $tweetEntity = new  TweetEntity();
-        $tweetEntity->setUser($this->userService->find(1));
+        $tweetEntity->setUser($this->userService->find(Auth::user()->id));
         $tweetEntity->setText($tweetRequest->text);
         $tweet = $this->tweetService->create($tweetEntity);
 
@@ -38,5 +38,11 @@ class TweetController extends Controller
         $tweetEntity->setUser($this->userService->find(Auth::user()->id));
 
         return $this->tweetService->update($tweetEntity);
+    }
+    public function delete($id)
+    {
+        $tweetEntity = $this->tweetService->find($id);
+        $userEntity = $this->userService->find(Auth::user()->id);
+        return $this->tweetService->delete($tweetEntity, $userEntity);
     }
 }

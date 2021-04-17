@@ -25,6 +25,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user', 'UserController@getAuthenticatedUser');
     Route::post('/tweet', 'TweetController@store');
     Route::post('/tweet/update', 'TweetController@update');
+    Route::get('/tweet/delete/{tweet_id}' , 'TweetController@delete');
     Route::post('/follow', 'FollowController@follow');
 });
 

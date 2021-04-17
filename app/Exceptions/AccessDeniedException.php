@@ -4,11 +4,11 @@ namespace App\Exceptions;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ForbiddenUpdateTweetException extends APIExceptions
+class AccessDeniedException extends APIExceptions
 {
     public function __construct($message = null)
     {
-        $message = $message ?? "You can't update this tweet !";
+        $message = $message ?? "Access Denied";
         parent::__construct($message, Response::HTTP_NOT_FOUND);
     }
 }
