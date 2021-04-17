@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\UserEntity;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
 use App\Utils\JWTAppAuth;
@@ -19,9 +20,6 @@ class UserController extends Controller
         public function authenticate(Request $request, JWTAppAuth $jwtAuth)
         {
             $credentials = $request->only('email', 'password');
-            $userEntity = new UserEntity;
-            $userEntity->setEmail($request->email);
-            $userEntity->setPassword($request->password);
             try {
                 if (! $token = $jwtAuth->attempt($credentials)) {
                     return response()->json(['error' => 'invalid_credentials'], 400);
@@ -56,5 +54,17 @@ class UserController extends Controller
             }
 
             return response()->json(compact('user'));
+        }
+        public function update(UpdateUserRequest $updateUserRequest)
+        {
+            $userEntity = $this->userService->find($updateUserRequest->id);
+
+            $userEntity->setName($updateUserRequest->name);
+            $userEntity->setEmail($updateUserRequest->email);
+            $userEntity->setPassword($updateUserRequest->password);
+            $userEntity->setDateOfBirth($updateUserRequest->date_of_birth);
+            $userEntity->setImage($updateUserRequest->image);
+
+            return $this->userService->update($userEntity);
         }
     }

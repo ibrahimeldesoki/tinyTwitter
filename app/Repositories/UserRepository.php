@@ -5,7 +5,8 @@ namespace App\Repositories;
 use App\Entities\UserEntity;
 use App\User;
 
-class UserRepository{
+class UserRepository
+{
     private $user;
 
     public function __construct(User $user)
@@ -30,7 +31,12 @@ class UserRepository{
 
         return $userEntity;
     }
+    public function update(UserEntity $userEntity)
+    {
+        $this->user->update($userEntity->toArray());
 
+        return $userEntity;
+    }
     public function followingUsers($userId)
     {
         return   $this->user->find($userId)->following()->pluck('following_user_id');
