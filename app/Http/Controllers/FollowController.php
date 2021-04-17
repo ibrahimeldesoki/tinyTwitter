@@ -24,6 +24,16 @@ class FollowController extends Controller
         $followEntity = new FollowEntity();
         $followEntity->setFollowerEntity($this->userService->find(Auth::user()->id));
         $followEntity->setFollowingEntity($this->userService->find($followRequest->following_user_id));
+
         return $this->followService->follow($followEntity);
+    }
+    public function unfollow(FollowRequest $UnfollowRequest)
+    {
+        $followEntity = new FollowEntity();
+        $followEntity->setFollowerEntity($this->userService->find(Auth::user()->id));
+        $followEntity->setFollowingEntity($this->userService->find($UnfollowRequest->following_user_id));
+        $this->followService->unFollow($followEntity);
+
+        return response()->json(['message'=> 'Unfollowed Successfully']);
     }
 }

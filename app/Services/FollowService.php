@@ -27,4 +27,16 @@ class FollowService
 
         return $this->followRepository->follow($followEntity);
     }
+    public  function unFollow(FollowEntity $followEntity)
+    {
+        if ( $followEntity->getFollowerEntity()->getId() == $followEntity->getFollowingEntity()->getId()) {
+            return response()->json(['You can not unfollow Yourself']);
+        }
+        $followExist = $this->followRepository->followed($followEntity);
+        if(!$followExist)
+        {
+           return response()->json(['You are not following this account']);
+        }
+        return $this->followRepository->unFollow($followEntity);
+    }
 }
