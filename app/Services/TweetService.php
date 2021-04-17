@@ -3,9 +3,11 @@
 namespace  App\Services;
 
 use App\Entities\TweetEntity;
+use App\Exceptions\ForbiddenUpdateTweetException;
 use App\Http\Requests\UpdateTweetRequest;
 use App\Repositories\TweetRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class TweetService
 {
@@ -23,15 +25,16 @@ class TweetService
 
     public function find($id)
     {
-        $foundTweet = $this->tweetRepository->find($id);
-        if ($foundTweet ==false) {
-            throw new Exception('we can not find this tweet');
-        }
-        return $foundTweet;
+        return $this->tweetRepository->find($id);
     }
     public function update(TweetEntity $tweetEntity)
     {
-        $this->find($tweetEntity->getId());
+
+        $oldTweetEntity = $this->find($tweetEntity->getId());
+        if($oldTweetEntity->getUser()->getId() != $tweetEntity->getUser()->getId())
+        {
+            throw new ForbiddenUpdateTweetException;
+        }
         return $this->tweetRepository->update($tweetEntity);
     }
 }

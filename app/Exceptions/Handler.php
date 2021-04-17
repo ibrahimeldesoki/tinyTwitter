@@ -59,6 +59,10 @@ class Handler extends ExceptionHandler
             } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
                 return response()->json(['token_absent'], $e->getStatusCode());
             }
+            if($e instanceof APIExceptions)
+            {
+               return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            }
         return parent::render($request, $e);
     }
 }

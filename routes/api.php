@@ -23,8 +23,8 @@ Route::post('login', 'UserController@authenticate');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user', 'UserController@getAuthenticatedUser');
-    // Route::post('/tweet', 'TweetController@store');
+    Route::post('/tweet', 'TweetController@store');
+    Route::post('/tweet/update', 'TweetController@update');
+    Route::post('/follow', 'FollowController@follow');
 });
-Route::post('/tweet', 'TweetController@store');
-Route::post('/tweet/update', 'TweetController@update');
-Route::post('/follow', 'FollowController@follow');
+

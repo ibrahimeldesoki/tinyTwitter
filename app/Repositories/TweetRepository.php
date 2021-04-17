@@ -29,16 +29,22 @@ class TweetRepository
     }
 
 
-    public function find(int $id)
+    public function find(int $tweet_id)
     {
-        return  $this->tweet->where('id', $id)->exists();
+        $tweet = $this->tweet->findOrFail($tweet_id);
+        $tweetEntity = new TweetEntity();
+        $tweetEntity->setId($tweet->id);
+        $tweetEntity->setText($tweet->text);
+        $tweetEntity->setUser($this->userRepository->find($tweet->user_id));
+
+        return $tweetEntity;
     }
 
     public function update(TweetEntity $tweetEntity)
     {
         $tweet =$this->tweet->find($tweetEntity->getId());
         $tweet->update(['text' =>$tweetEntity->getText() ]);
-        $tweetEntity->setText($tweet->text);
+
         return $tweetEntity;
     }
 }

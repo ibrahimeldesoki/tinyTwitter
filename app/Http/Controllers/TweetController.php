@@ -35,8 +35,7 @@ class TweetController extends Controller
         $tweetEntity = new TweetEntity;
         $tweetEntity->setId($updateTweetRequest->tweet_id);
         $tweetEntity->setText($updateTweetRequest->text);
-        //auth
-        $tweetEntity->setUser($this->userService->find(1));
+        $tweetEntity->setUser($this->userService->find(Auth::user()->id));
 
         return $this->tweetService->update($tweetEntity);
     }

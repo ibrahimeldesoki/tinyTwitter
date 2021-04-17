@@ -3,8 +3,9 @@
 namespace  App\Services;
 
 use App\Entities\FollowEntity;
+use App\Exceptions\CanotFollowYourselfException;
+use App\Exceptions\FollowedExistException;
 use App\repositories\FollowRepository;
-use Exception;
 
 class FollowService
 {
@@ -19,9 +20,9 @@ class FollowService
     {
         $followExist = $this->followRepository->followed($followEntity);
         if ($followExist) {
-            throw new Exception('You already follow this user');
+            throw new FollowedExistException;
         } elseif ($followEntity->getFollowerEntity()->getId() == $followEntity->getFollowingEntity()->getId()) {
-            throw new Exception('You can not follow yourself');
+            throw new CanotFollowYourselfException;
         }
 
         return $this->followRepository->follow($followEntity);
