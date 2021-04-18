@@ -37,8 +37,12 @@ class UserRepository
 
         return $userEntity;
     }
-    public function followingUsers($userId)
+    // public function followingUsers($userId)
+    // {
+    //     return   $this->user->find($userId)->following()->pluck('following_user_id');
+    // }
+    public function all()
     {
-        return   $this->user->find($userId)->following()->pluck('following_user_id');
+        return $this->user->withCount('tweets')->get();
     }
 }

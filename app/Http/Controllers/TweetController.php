@@ -28,12 +28,12 @@ class TweetController extends Controller
         return response()->json(compact('tweet'));
     }
 
-    public function update(UpdateTweetRequest $updateTweetRequest)
+    public function update(UpdateTweetRequest $updateTweetRequest ,$id)
     {
-        $this->tweetService->find($updateTweetRequest->tweet_id);
+        $this->tweetService->find($id);
 
         $tweetEntity = new TweetEntity;
-        $tweetEntity->setId($updateTweetRequest->tweet_id);
+        $tweetEntity->setId($id);
         $tweetEntity->setText($updateTweetRequest->text);
         $tweetEntity->setUser($this->userService->find(Auth::user()->id));
 

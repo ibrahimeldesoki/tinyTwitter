@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use \Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -76,5 +78,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('manyRequests', function (Request $request) {
+            return Limit::perMinute(30)->response(function () {
+                return response('Too Many Requests', 429);
+            });
+        });
     }
 }

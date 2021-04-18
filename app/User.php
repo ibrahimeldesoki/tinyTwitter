@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function tweets()
     {
-        return $this->morphMany(Tweet::class,'user_id');
+        return $this->hasMany(Tweet::class);
     }
     public function getJWTIdentifier()
     {

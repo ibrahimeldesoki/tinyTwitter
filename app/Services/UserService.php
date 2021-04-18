@@ -44,8 +44,12 @@ class UserService
         }
         return $this->userRepository->update($userEntity);
     }
-    public function followingUsers($userId)
+    // public function followingUsers($userId)
+    // {
+    //     return $this->userRepository->followingUsers($userId);
+    // }
+    public function all()
     {
-        return $this->userRepository->followingUsers($userId);
+        return   $this->userRepository->all();
     }
 }

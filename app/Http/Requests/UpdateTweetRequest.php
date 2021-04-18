@@ -24,7 +24,6 @@ class UpdateTweetRequest extends FormRequest
     public function rules()
     {
         return [
-            'tweet_id' => 'required|exists:tweets,id',
             'text' => 'required|string|max:140',
         ];
     }
