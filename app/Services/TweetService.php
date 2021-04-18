@@ -6,8 +6,7 @@ use App\Entities\TweetEntity;
 use App\Entities\UserEntity;
 use App\Exceptions\AccessDeniedException;
 use App\Repositories\TweetRepository;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class TweetService
 {

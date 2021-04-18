@@ -26,13 +26,8 @@ class UserController extends Controller
     public function authenticate(Request $request, JWTAppAuth $jwtAuth)
     {
         $credentials = $request->only('email', 'password');
-
-        try {
-            if (! $token = $jwtAuth->attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+        if (! $token = $jwtAuth->attempt($credentials)) {
+            return response()->json(['error' => 'invalid_credentials'], 400);
         }
 
         return response()->json(compact('token'));

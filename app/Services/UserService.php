@@ -32,6 +32,7 @@ class UserService
     {
         return $this->userRepository->find($user_id);
     }
+
     public function update(UserEntity $userEntity)
     {
         $userEntity->setPassword(Hash::make($userEntity->getPassword()));
@@ -44,10 +45,7 @@ class UserService
         }
         return $this->userRepository->update($userEntity);
     }
-    // public function followingUsers($userId)
-    // {
-    //     return $this->userRepository->followingUsers($userId);
-    // }
+
     public function all()
     {
         return   $this->userRepository->all();
