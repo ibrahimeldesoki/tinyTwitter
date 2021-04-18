@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Utils;
-
 
 use App\Services\UserService;
 use Tymon\JWTAuth\Contracts\Providers\Auth;

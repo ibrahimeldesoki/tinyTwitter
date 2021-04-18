@@ -7,7 +7,6 @@ use App\Entities\UserEntity;
 use App\Exceptions\AccessDeniedException;
 use App\Repositories\TweetRepository;
 
-
 class TweetService
 {
     private $tweetRepository;
@@ -26,20 +25,22 @@ class TweetService
     {
         return  $this->tweetRepository->find($id);
     }
+
     public function update(TweetEntity $tweetEntity)
     {
         $oldTweetEntity = $this->find($tweetEntity->getId());
         if ($oldTweetEntity->getUser()->getId() != $tweetEntity->getUser()->getId()) {
             throw new AccessDeniedException();
         }
+
         return $this->tweetRepository->update($tweetEntity);
     }
+
     public function delete(TweetEntity $tweetEntity, UserEntity $userEntity)
     {
         if ($tweetEntity->getUser()->getId() != $userEntity->getId()) {
             throw new AccessDeniedException();
         }
-         $this->tweetRepository->delete($tweetEntity->getId());
-
+        $this->tweetRepository->delete($tweetEntity->getId());
     }
 }

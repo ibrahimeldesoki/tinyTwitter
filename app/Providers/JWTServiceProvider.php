@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Providers;
 
 use App\Services\UserService;
@@ -12,7 +11,8 @@ class JWTServiceProvider extends ServiceProvider
     protected function registerJWTAuth()
     {
         $this->app->singleton('tymon.jwt.auth', function ($app) {
-            return (new JWTAppAuth(app(UserService::class),
+            return (new JWTAppAuth(
+                app(UserService::class),
                 $app['tymon.jwt.manager'],
                 $app['tymon.jwt.provider.auth'],
                 $app['tymon.jwt.parser']

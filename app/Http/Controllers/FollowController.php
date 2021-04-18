@@ -27,6 +27,7 @@ class FollowController extends Controller
 
         return $this->followService->follow($followEntity);
     }
+
     public function unfollow(FollowRequest $UnfollowRequest)
     {
         $followEntity = new FollowEntity();

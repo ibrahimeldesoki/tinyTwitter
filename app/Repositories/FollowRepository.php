@@ -45,6 +45,7 @@ class FollowRepository
         ->where('following_user_id', $followEntity->getFollowingEntity()->getId())
         ->exists();
     }
+
     public function unFollow(FollowEntity $followEntity)
     {
         return $this->follow

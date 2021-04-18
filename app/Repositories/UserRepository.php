@@ -21,6 +21,7 @@ class UserRepository
 
         return $userEntity;
     }
+
     public function find($userId)
     {
         $user = $this->user->findOrFail($userId);
@@ -31,12 +32,14 @@ class UserRepository
 
         return $userEntity;
     }
+
     public function update(UserEntity $userEntity)
     {
         $this->user->update($userEntity->toArray());
 
         return $userEntity;
     }
+
     public function all()
     {
         return $this->user->withCount('tweets')->get();
