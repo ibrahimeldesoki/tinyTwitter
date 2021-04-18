@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Entities\SearchTweetEntity;
 use App\Entities\TweetEntity;
 use App\Tweet;
 
@@ -51,5 +50,9 @@ class TweetRepository
     {
         $this->tweet->find($id)->delete();
         return response()->json(['success' => 'true', 'message' => 'Tweet Deleted Sucssfully'],200);
+    }
+    public function count()
+    {
+        return $this->tweet->count();
     }
 }
