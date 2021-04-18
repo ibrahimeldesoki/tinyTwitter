@@ -27,3 +27,5 @@ Then seed Datebase
 ```shell script
 php artisan db:seed
 ```
+# Postman Collection 
+https://documenter.getpostman.com/view/4405911/TzJsfdhg
