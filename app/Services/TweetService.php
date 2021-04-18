@@ -41,6 +41,7 @@ class TweetService
         if ($tweetEntity->getUser()->getId() != $userEntity->getId()) {
             throw new AccessDeniedException();
         }
-       return $this->tweetRepository->delete($tweetEntity->getId());
+
+        return $this->tweetRepository->delete($tweetEntity->getId());
     }
 }
