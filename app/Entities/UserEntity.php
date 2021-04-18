@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class UserEntity implements Arrayable, JsonSerializable , JWTSubject
+class UserEntity implements Arrayable, JsonSerializable, JWTSubject
 {
     private $id;
     private $name;
@@ -72,6 +72,7 @@ class UserEntity implements Arrayable, JsonSerializable , JWTSubject
     {
         return $this->password;
     }
+
     public function setDateOfBirth($dateOfBirth)
     {
         $this->dateOfBirth = $dateOfBirth;
@@ -81,6 +82,7 @@ class UserEntity implements Arrayable, JsonSerializable , JWTSubject
     {
         return $this->dateOfBirth;
     }
+
     public function setImage($image)
     {
         $this->image = $image;
@@ -90,10 +92,12 @@ class UserEntity implements Arrayable, JsonSerializable , JWTSubject
     {
         return $this->image;
     }
+
     public function getJWTIdentifier()
     {
         return $this->getId();
     }
+
     public function getJWTCustomClaims()
     {
         return [];

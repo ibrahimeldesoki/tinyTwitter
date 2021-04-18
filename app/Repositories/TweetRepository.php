@@ -27,7 +27,6 @@ class TweetRepository
         return $tweetEntity;
     }
 
-
     public function find(int $tweet_id)
     {
         $tweet = $this->tweet->findOrFail($tweet_id);
@@ -41,16 +40,19 @@ class TweetRepository
 
     public function update(TweetEntity $tweetEntity)
     {
-        $tweet =$this->tweet->find($tweetEntity->getId());
-        $tweet->update(['text' =>$tweetEntity->getText() ]);
+        $tweet = $this->tweet->find($tweetEntity->getId());
+        $tweet->update(['text' =>$tweetEntity->getText()]);
 
         return $tweetEntity;
     }
+
     public function delete($id)
     {
         $this->tweet->find($id)->delete();
-        return response()->json(['success' => 'true', 'message' => 'Tweet Deleted Sucssfully'],200);
+
+        return response()->json(['success' => 'true', 'message' => 'Tweet Deleted Sucssfully'], 200);
     }
+
     public function count()
     {
         return $this->tweet->count();

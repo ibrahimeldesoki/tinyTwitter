@@ -25,6 +25,7 @@ class UserService
             $userEntity->getImage()->move(public_path($destinationPath), $imageName);
             $userEntity->setImage($imagePath);
         }
+
         return $this->userRepository->register($userEntity);
     }
 
@@ -43,6 +44,7 @@ class UserService
             $userEntity->getImage()->move(public_path($destinationPath), $imageName);
             $userEntity->setImage($imagePath);
         }
+
         return $this->userRepository->update($userEntity);
     }
 

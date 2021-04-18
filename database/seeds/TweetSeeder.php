@@ -14,11 +14,11 @@ class TweetSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create();
-        for ($i=0; $i < 10; $i++) {
-	    	Tweet::create([
-	            'text' => $faker->text(140),
-                'user_id' =>  User::all()->random()->id,
-	        ]);
-    	}
+        for ($i = 0; $i < 10; $i++) {
+            Tweet::create([
+                'text'    => $faker->text(140),
+                'user_id' => User::all()->random()->id,
+            ]);
+        }
     }
 }

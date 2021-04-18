@@ -24,12 +24,12 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users,id',
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:6',
+            'id'            => 'required|exists:users,id',
+            'name'          => 'required|string',
+            'email'         => 'required|email|unique:users,email',
+            'password'      => 'required|confirmed|min:6',
             'date_of_birth' => 'required|date',
-            'image' => 'required|image|mimes:jpeg,jpg,png|max:10000'
+            'image'         => 'required|image|mimes:jpeg,jpg,png|max:10000',
         ];
     }
 }

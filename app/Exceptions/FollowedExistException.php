@@ -8,7 +8,7 @@ class FollowedExistException extends APIExceptions
 {
     public function __construct($message = null)
     {
-        $message = $message ?? "You followed this user before !";
+        $message = $message ?? 'You followed this user before !';
         parent::__construct($message, Response::HTTP_NOT_FOUND);
     }
 }
