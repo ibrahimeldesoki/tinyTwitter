@@ -18,17 +18,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@authenticate')->middleware('throttle:3,10');
-// Route::middleware('throttle:manyRequests')->post('login', 'UserController@authenticate');
+Route::post('login', 'UserController@authenticate')->middleware('throttle:5,30');
+
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/user', 'UserController@getAuthenticatedUser');
     Route::put('/user','UserController@update');
+
     Route::post('/tweet', 'TweetController@store');
     Route::put('/tweet/{id}', 'TweetController@update');
 
     Route::post('/follow', 'FollowController@follow');
     Route::post('/unfollow', 'FollowController@unfollow');
 
+    Route::get('/report' , 'UserController@report');
 });
-Route::get('/report' , 'UserController@report');
+

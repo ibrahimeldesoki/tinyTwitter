@@ -16,7 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::resource('user', [UserController::class]);
-// Route::resource('tweet', [TweetController::class]);
-// Route::resource('follow', [FollowController::class]);
-// Route::resource('report', [ReportControler::class]);
