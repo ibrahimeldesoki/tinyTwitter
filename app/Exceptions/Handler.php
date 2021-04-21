@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -65,6 +66,10 @@ class Handler extends ExceptionHandler
         }
         if ($e instanceof ModelNotFoundException) {
             return response()->json(['success' => false, 'message' => 'No query Result']);
+        }
+
+        if ($e instanceof ThrottleRequestsException) {
+            return response()->json(['success' => false, 'message' => 'Too many Attempts to login , try again after 30 minutes']);
         }
 
         return parent::render($request, $e);

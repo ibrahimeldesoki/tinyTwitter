@@ -5,25 +5,26 @@ namespace App\Services;
 use App\Entities\UserEntity;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
     private $userRepository;
 
-    public function __construct(UserRepository $UserRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepository = $UserRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function register(UserEntity $userEntity)
     {
         $userEntity->setPassword(Hash::make($userEntity->getPassword()));
         if ($userEntity->getImage() != null) {
-            $imageName = time().'.'.$userEntity->getImage()->getClientOriginalExtension();
-            $destinationPath = 'upload/user/images';
-            $imagePath = $destinationPath.'/'.$imageName;
-            $userEntity->getImage()->move(public_path($destinationPath), $imageName);
-            $userEntity->setImage($imagePath);
+            $path =  Storage::disk('public')->put('user/image', $userEntity->getImage());
+            $userEntity->setImage(url('storage/'.$path));
+        }
+        else{
+            $userEntity->setImage(asset('assets/images/default.png'));
         }
 
         return $this->userRepository->register($userEntity);
@@ -38,11 +39,13 @@ class UserService
     {
         $userEntity->setPassword(Hash::make($userEntity->getPassword()));
         if ($userEntity->getImage() != null) {
-            $imageName = time().'.'.$userEntity->getImage()->getClientOriginalExtension();
-            $destinationPath = 'upload/user/images';
-            $imagePath = $destinationPath.'/'.$imageName;
-            $userEntity->getImage()->move(public_path($destinationPath), $imageName);
-            $userEntity->setImage($imagePath);
+            if ($userEntity->getImage() != null) {
+                $path =  Storage::disk('public')->put('user/image', $userEntity->getImage());
+                $userEntity->setImage(url('storage/'.$path));
+            }
+            else{
+                $userEntity->setImage(url('assets/images/default.png'));
+            }
         }
 
         return $this->userRepository->update($userEntity);

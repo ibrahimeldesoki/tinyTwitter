@@ -5,7 +5,7 @@ namespace  App\Services;
 use App\Entities\FollowEntity;
 use App\Exceptions\CanotFollowYourselfException;
 use App\Exceptions\FollowedExistException;
-use App\repositories\FollowRepository;
+use App\Repositories\FollowRepository;
 
 class FollowService
 {

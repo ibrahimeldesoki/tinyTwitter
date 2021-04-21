@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\UserEntity;
+use App\Http\Requests\loginRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Services\ReportService;
@@ -23,7 +24,7 @@ class UserController extends Controller
         $this->reportService = $reportService;
     }
 
-    public function authenticate(Request $request, JWTAppAuth $jwtAuth)
+    public function authenticate(loginRequest $request, JWTAppAuth $jwtAuth)
     {
         $credentials = $request->only('email', 'password');
         if (!$token = $jwtAuth->attempt($credentials)) {

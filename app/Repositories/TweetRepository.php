@@ -10,7 +10,7 @@ class TweetRepository
     private $tweet;
     private $userRepository;
 
-    public function __construct(Tweet $tweet, userRepository $userRepository)
+    public function __construct(Tweet $tweet, UserRepository $userRepository)
     {
         $this->tweet = $tweet;
         $this->userRepository = $userRepository;
