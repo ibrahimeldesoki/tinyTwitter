@@ -10,7 +10,6 @@ use App\Services\ReportService;
 use App\Services\UserService;
 use App\Utils\JWTAppAuth;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller

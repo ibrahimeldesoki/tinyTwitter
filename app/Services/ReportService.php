@@ -20,8 +20,13 @@ class ReportService
     {
         $users = $this->userRepository->all();
         $tweetsCount = $this->tweetRepository->count();
+
         $users->map(function ($user) use ($tweetsCount) {
-            return $user->avg = ($user->tweets_count / $tweetsCount) * 100;
+            $avg = 0;
+            if($tweetsCount > 0) {
+                $avg = ($user->tweets_count / $tweetsCount) * 100;
+            }
+            return $user->avg = $avg;
         });
 
         return $users;
