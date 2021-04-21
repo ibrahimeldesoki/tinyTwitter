@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1','middleware' => ['jwt.verify']], function () {
 
     Route::post('/tweet', 'TweetController@store');
     Route::put('/tweet/{id}', 'TweetController@update');
-    Route::delete('/tweet/{id}','TweetController@delete');
+    Route::delete('/tweet/{id}', 'TweetController@delete');
     Route::post('/follow', 'FollowController@follow');
     Route::post('/unfollow', 'FollowController@unfollow');
 
