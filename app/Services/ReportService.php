@@ -23,9 +23,10 @@ class ReportService
 
         $users->map(function ($user) use ($tweetsCount) {
             $avg = 0;
-            if($tweetsCount > 0) {
+            if ($tweetsCount > 0) {
                 $avg = ($user->tweets_count / $tweetsCount) * 100;
             }
+
             return $user->avg = $avg;
         });
 

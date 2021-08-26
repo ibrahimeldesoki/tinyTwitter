@@ -20,10 +20,9 @@ class UserService
     {
         $userEntity->setPassword(Hash::make($userEntity->getPassword()));
         if ($userEntity->getImage() != null) {
-            $path =  Storage::disk('public')->put('user/image', $userEntity->getImage());
+            $path = Storage::disk('public')->put('user/image', $userEntity->getImage());
             $userEntity->setImage(url('storage/'.$path));
-        }
-        else{
+        } else {
             $userEntity->setImage(asset('assets/images/default.png'));
         }
 
@@ -40,10 +39,9 @@ class UserService
         $userEntity->setPassword(Hash::make($userEntity->getPassword()));
         if ($userEntity->getImage() != null) {
             if ($userEntity->getImage() != null) {
-                $path =  Storage::disk('public')->put('user/image', $userEntity->getImage());
+                $path = Storage::disk('public')->put('user/image', $userEntity->getImage());
                 $userEntity->setImage(url('storage/'.$path));
-            }
-            else{
+            } else {
                 $userEntity->setImage(url('assets/images/default.png'));
             }
         }
