@@ -17,13 +17,12 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group(['prefix' => 'v1'],function(){
+Route::group(['prefix' => 'v1'], function () {
     Route::post('register', 'UserController@register');
     Route::post('login', 'UserController@authenticate')->middleware('customthrottle:5,30');
 });
 
-
-Route::group(['prefix' => 'v1','middleware' => ['jwt.verify']], function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['jwt.verify']], function () {
     Route::get('/user', 'UserController@getAuthenticatedUser');
     Route::put('/user', 'UserController@update');
 
